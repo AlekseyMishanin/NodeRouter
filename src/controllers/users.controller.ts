@@ -1,9 +1,8 @@
 import { IControllerRoute } from "../model/route.interface";
 import { LoggerService } from "../services/logger.service";
 import { BaseController } from "./base.controller";
-import * as path from "path";
 
-export class UsersController extends BaseController {
+export class UserController extends BaseController {
     constructor(logger: LoggerService) {
         super(logger);
         this.bindRoutes([this.login(), this.register()])

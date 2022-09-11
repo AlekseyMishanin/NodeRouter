@@ -15,6 +15,10 @@ export abstract class BaseController {
         return this._router;
     }
 
+    get logger() {
+        return this._logger;
+    }
+
     public send<T>(res: Response, code: number, message: T) {
         res.status(code);
         return res.type('application/json').json(message);

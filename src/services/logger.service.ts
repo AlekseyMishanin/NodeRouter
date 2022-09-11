@@ -1,4 +1,4 @@
-import { Logger } from 'tslog';
+import {Logger} from 'tslog';
 
 export class LoggerService {
     private _logger: Logger;
@@ -19,15 +19,15 @@ export class LoggerService {
         this._logger = logger;
     }
 
-    public info(... args: unknown[]): void {
+    public info(...args: unknown[]): void {
         this._logger.info(...args);
     }
 
-    public warn(... args: unknown[]): void {
+    public warn(...args: unknown[]): void {
         this._logger.warn(...args);
     }
 
-    public error(... args: unknown[]): void {
+    public error(...args: unknown[]): void {
         this._logger.error(...args);
     }
 }

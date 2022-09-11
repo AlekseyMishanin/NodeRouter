@@ -1,6 +1,6 @@
-import { Router, Response } from 'express';
-import { IControllerRoute } from '../model/route.interface';
-import { LoggerService } from '../services/logger.service';
+import {Router, Response} from 'express';
+import {IControllerRoute} from '../controllers/route.interface';
+import {LoggerService} from '../services/logger.service';
 
 export abstract class BaseController {
     private readonly _router: Router;

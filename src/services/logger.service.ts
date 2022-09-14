@@ -1,6 +1,7 @@
 import {Logger} from 'tslog';
+import { ILoggerService } from './logger.interface';
 
-export class LoggerService {
+export class LoggerService implements ILoggerService {
     private _logger: Logger;
 
     constructor() {
@@ -9,14 +10,6 @@ export class LoggerService {
             displayFunctionName: false,
             displayFilePath: 'hidden',
         });
-    }
-
-    get logger() {
-        return this._logger;
-    }
-
-    set logget(logger: Logger) {
-        this._logger = logger;
     }
 
     public info(...args: unknown[]): void {

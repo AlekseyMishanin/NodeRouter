@@ -1,11 +1,15 @@
+import {inject, injectable} from "inversify";
 import {IControllerRoute} from "../controllers/route.interface";
-import { HTTPError } from "../errors/http-error.class";
-import {LoggerService} from "../services/logger.service";
+import {HTTPError} from "../errors/http-error.class";
+import {ILoggerService} from "../services/logger.interface";
+import {TYPES} from "../types";
 import {BaseController} from "./base.controller";
+import 'reflect-metadata';
 
+@injectable()
 export class UserController extends BaseController {
-    constructor(logger: LoggerService) {
-        super(logger);
+    constructor(@inject(TYPES.ILoggerService) private loggerService: ILoggerService) {
+        super(loggerService);
         this.bindRoutes([this.login(), this.logout(), this.register()])
     }
 

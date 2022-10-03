@@ -9,10 +9,14 @@ import { IUserController } from './users.controller.interface';
 import { UserLogin } from '../models/user-login';
 import { UserRegister } from '../models/user-register';
 import { User } from '../models/user.entity';
+import { IUserService } from '../services/users.service.interface';
 
 @injectable()
 export class UserController extends BaseController implements IUserController {
-	constructor(@inject(TYPES.ILoggerService) private loggerService: ILoggerService) {
+	constructor(
+		@inject(TYPES.ILoggerService) private loggerService: ILoggerService,
+		@inject(TYPES.IUserService) private userService: IUserService
+	) {
 		super(loggerService);
 		this.bindRoutes([
 			{
@@ -47,8 +51,10 @@ export class UserController extends BaseController implements IUserController {
 		res: Response,
 		next: NextFunction
 	): Promise<void> {
-		const user = new User(body.email, body.name);
-		await user.setSassword(body.password);
+		const user = await this.userService.create(body);
+		if (!user) {
+			return next(new HTTPError(400, 'User exists'));
+		}
 		this.ok(res, user);
 	}
 }

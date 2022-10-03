@@ -8,6 +8,7 @@ import 'reflect-metadata';
 import { IUserController } from './users.controller.interface';
 import { UserLogin } from '../models/user-login';
 import { UserRegister } from '../models/user-register';
+import { User } from '../models/user.entity';
 
 @injectable()
 export class UserController extends BaseController implements IUserController {
@@ -41,8 +42,13 @@ export class UserController extends BaseController implements IUserController {
 		next(new HTTPError(404, 'Not implemented', 'logout'));
 	}
 
-	register(req: Request<{}, {}, UserRegister>, res: Response, next: NextFunction): void {
-		this.logger.info(req.body);
-		this.ok(res, 'register');
+	async register(
+		{ body }: Request<{}, {}, UserRegister>,
+		res: Response,
+		next: NextFunction
+	): Promise<void> {
+		const user = new User(body.email, body.name);
+		await user.setSassword(body.password);
+		this.ok(res, user);
 	}
 }

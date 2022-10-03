@@ -4,6 +4,7 @@ import { inject, injectable } from 'inversify';
 import { UserController } from './controllers/users.controller';
 import { ExceptionFilter } from './errors/exception.filter';
 import { ILoggerService } from './services/logger.interface';
+import { json } from 'body-parser';
 import { TYPES } from './types';
 import 'reflect-metadata';
 
@@ -24,13 +25,18 @@ export class App {
 	}
 
 	public async init(): Promise<void> {
-		this.userRoutes();
+		this.useMiddleware();
+		this.useRoutes();
 		this.useExceptionFilters();
 		this.server = this.app.listen(this.port);
 		this.logger.info(`The server is running on the http://localhost:${this.port}`);
 	}
 
-	private userRoutes(): void {
+	private useMiddleware(): void {
+		this.app.use(json());
+	}
+
+	private useRoutes(): void {
 		this.app.use('/user', this.userController.router);
 	}
 

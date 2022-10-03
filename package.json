@@ -26,6 +26,7 @@
     "email": "mishanin_a_a@mail.ru"
   },
   "dependencies": {
+    "body-parser": "^1.20.0",
     "express": "^4.18.1",
     "inversify": "^6.0.1",
     "reflect-metadata": "^0.1.13",

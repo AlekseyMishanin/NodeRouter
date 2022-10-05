@@ -13,6 +13,7 @@ export class ConfigService implements IConfigService {
 		if (envResult.error) {
 			loggerService.error('.env not found');
 		} else {
+            loggerService.error('.env has loaded successfully');
 			this.config = envResult.parsed as DotenvParseOutput;
 		}
 	}

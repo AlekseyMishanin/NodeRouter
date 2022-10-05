@@ -10,6 +10,7 @@ import { UserLogin } from '../models/user-login';
 import { UserRegister } from '../models/user-register';
 import { User } from '../models/user.entity';
 import { IUserService } from '../services/users.service.interface';
+import { ValidateMiddleware } from './middlewares/validate.middleware';
 
 @injectable()
 export class UserController extends BaseController implements IUserController {
@@ -33,6 +34,7 @@ export class UserController extends BaseController implements IUserController {
 				path: '/register',
 				func: this.register,
 				method: 'post',
+				middlewares: [new ValidateMiddleware(UserRegister)],
 			},
 		]);
 	}

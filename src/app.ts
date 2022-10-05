@@ -7,6 +7,7 @@ import { ILoggerService } from './services/logger.interface';
 import { json } from 'body-parser';
 import { TYPES } from './types';
 import 'reflect-metadata';
+import { PrismaService } from './services/prisma.service';
 
 @injectable()
 export class App {
@@ -17,7 +18,8 @@ export class App {
 	constructor(
 		@inject(TYPES.ILoggerService) private logger: ILoggerService,
 		@inject(TYPES.IUserController) private userController: UserController,
-		@inject(TYPES.ExceptionFilter) private exceptionFilter: ExceptionFilter
+		@inject(TYPES.ExceptionFilter) private exceptionFilter: ExceptionFilter,
+		@inject(TYPES.PrismaService) private prismaService: PrismaService
 	) {
 		this.app = express();
 		this.port = 8080;
@@ -28,6 +30,7 @@ export class App {
 		this.useMiddleware();
 		this.useRoutes();
 		this.useExceptionFilters();
+		await this.prismaService.connect();
 		this.server = this.app.listen(this.port);
 		this.logger.info(`The server is running on the http://localhost:${this.port}`);
 	}

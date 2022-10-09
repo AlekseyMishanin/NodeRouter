@@ -13,13 +13,16 @@ import { IUserService } from '../services/users.service.interface';
 import { ValidateMiddleware } from './middlewares/validate.middleware';
 import { UsersRepository } from '../dao/users.repository';
 import { UserLoginValidateMiddleware } from './middlewares/user.login.validate.middleware';
+import { sign } from 'jsonwebtoken';
+import { IConfigService } from '../config/config.service.interface';
 
 @injectable()
 export class UserController extends BaseController implements IUserController {
 	constructor(
 		@inject(TYPES.ILoggerService) private loggerService: ILoggerService,
 		@inject(TYPES.IUserService) private userService: IUserService,
-		@inject(TYPES.UsersRepository) private usersRepository: UsersRepository
+		@inject(TYPES.UsersRepository) private usersRepository: UsersRepository,
+		@inject(TYPES.IConfigService) private configService: IConfigService
 	) {
 		super(loggerService);
 		this.bindRoutes([
@@ -46,12 +49,12 @@ export class UserController extends BaseController implements IUserController {
 		]);
 	}
 
-	login(req: Request<{}, {}, UserLogin>, res: Response, next: NextFunction): void {
-		this.logger.info(req.body);
-		this.ok(res, 'login');
+	async login(req: Request<{}, {}, UserLogin>, res: Response, next: NextFunction): Promise<void> {
+		const jwt = await this.signJWT(req.body.email, this.configService.get('SECRET'));
+		this.ok(res, { jwt });
 	}
 
-	logout(req: Request, res: Response, next: NextFunction): void {
+	async logout(req: Request, res: Response, next: NextFunction): Promise<void> {
 		next(new HTTPError(404, 'Not implemented', 'logout'));
 	}
 
@@ -65,5 +68,26 @@ export class UserController extends BaseController implements IUserController {
 			return next(new HTTPError(400, 'User exists'));
 		}
 		this.ok(res, user);
+	}
+
+	private signJWT(email: string, secret: string): Promise<string> {
+		return new Promise<string>((resolve, reject) => {
+			sign(
+				{
+					email,
+					iat: Math.floor(Date.now() / 1000),
+				},
+				secret,
+				{
+					algorithm: 'HS256',
+				},
+				(err, token) => {
+					if (err) {
+						reject(err);
+					}
+					resolve(token as string);
+				}
+			);
+		});
 	}
 }

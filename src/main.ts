@@ -4,6 +4,8 @@ import { ConfigService } from './config/config.service';
 import { IConfigService } from './config/config.service.interface';
 import { UserController } from './controllers/users.controller';
 import { IUserController } from './controllers/users.controller.interface';
+import { UsersRepository } from './dao/users.repository';
+import { IUsersRepository } from './dao/users.repository.interface';
 import { ExceptionFilter } from './errors/exception.filter';
 import { IExceptionFilter } from './errors/exception.filter.interface';
 import { ILoggerService } from './services/logger.interface';
@@ -25,6 +27,7 @@ export const appBindings = new ContainerModule((bind) => {
 	bind<IConfigService>(TYPES.IConfigService).to(ConfigService).inSingletonScope();
 	bind<IExceptionFilter>(TYPES.ExceptionFilter).to(ExceptionFilter).inSingletonScope();
 	bind<PrismaService>(TYPES.PrismaService).to(PrismaService).inSingletonScope();
+	bind<IUsersRepository>(TYPES.UsersRepository).to(UsersRepository).inSingletonScope();
 	bind<App>(TYPES.App).to(App).inSingletonScope();
 });
 

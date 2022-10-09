@@ -2,7 +2,7 @@ import { IConfigService } from './config.service.interface';
 import { config, DotenvConfigOutput, DotenvParseOutput } from 'dotenv';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../types';
-import { ILoggerService } from '../services/logger.interface';
+import { ILoggerService } from './logger.interface';
 
 @injectable()
 export class ConfigService implements IConfigService {

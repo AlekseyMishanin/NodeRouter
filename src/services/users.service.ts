@@ -1,6 +1,6 @@
 import { UserModel } from '@prisma/client';
 import { inject, injectable } from 'inversify';
-import { IConfigService } from '../config/config.service.interface';
+import { IConfigService } from '../services/config.service.interface';
 import { IUsersRepository } from '../dao/users.repository.interface';
 import { UserRegister } from '../models/user-register';
 import { User } from '../models/user.entity';

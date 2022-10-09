@@ -9,7 +9,7 @@ import { TYPES } from './types';
 import 'reflect-metadata';
 import { PrismaService } from './services/prisma.service';
 import { AuthMiddleware } from './controllers/middlewares/auth.middleware';
-import { IConfigService } from './config/config.service.interface';
+import { IConfigService } from './services/config.service.interface';
 
 @injectable()
 export class App {

@@ -1,7 +1,7 @@
 import { Container, ContainerModule } from 'inversify';
 import { App } from './app';
-import { ConfigService } from './config/config.service';
-import { IConfigService } from './config/config.service.interface';
+import { ConfigService } from './services/config.service';
+import { IConfigService } from './services/config.service.interface';
 import { UserController } from './controllers/users.controller';
 import { IUserController } from './controllers/users.controller.interface';
 import { UsersRepository } from './dao/users.repository';

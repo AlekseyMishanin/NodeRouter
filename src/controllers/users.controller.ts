@@ -14,7 +14,7 @@ import { ValidateMiddleware } from './middlewares/validate.middleware';
 import { UsersRepository } from '../dao/users.repository';
 import { UserLoginValidateMiddleware } from './middlewares/user.login.validate.middleware';
 import { sign } from 'jsonwebtoken';
-import { IConfigService } from '../config/config.service.interface';
+import { IConfigService } from '../services/config.service.interface';
 
 @injectable()
 export class UserController extends BaseController implements IUserController {

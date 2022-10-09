@@ -25,8 +25,4 @@ export class UserService implements IUserService {
 
 		return this.usersRepository.save(user);
 	}
-
-	async validate({ email, name, password }: User): Promise<boolean> {
-		return true;
-	}
 }

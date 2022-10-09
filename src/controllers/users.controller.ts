@@ -11,12 +11,15 @@ import { UserRegister } from '../models/user-register';
 import { User } from '../models/user.entity';
 import { IUserService } from '../services/users.service.interface';
 import { ValidateMiddleware } from './middlewares/validate.middleware';
+import { UsersRepository } from '../dao/users.repository';
+import { UserLoginValidateMiddleware } from './middlewares/user.login.validate.middleware';
 
 @injectable()
 export class UserController extends BaseController implements IUserController {
 	constructor(
 		@inject(TYPES.ILoggerService) private loggerService: ILoggerService,
-		@inject(TYPES.IUserService) private userService: IUserService
+		@inject(TYPES.IUserService) private userService: IUserService,
+		@inject(TYPES.UsersRepository) private usersRepository: UsersRepository
 	) {
 		super(loggerService);
 		this.bindRoutes([
@@ -24,6 +27,10 @@ export class UserController extends BaseController implements IUserController {
 				path: '/login',
 				func: this.login,
 				method: 'post',
+				middlewares: [
+					new ValidateMiddleware(UserLogin),
+					new UserLoginValidateMiddleware(usersRepository),
+				],
 			},
 			{
 				path: '/logout',

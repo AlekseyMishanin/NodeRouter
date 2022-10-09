@@ -4,5 +4,4 @@ import { User } from '../models/user.entity';
 
 export interface IUserService {
 	create: (userCreateRequest: UserRegister) => Promise<UserModel | null>;
-	validate: (user: User) => Promise<boolean>;
 }

@@ -8,6 +8,8 @@ import { json } from 'body-parser';
 import { TYPES } from './types';
 import 'reflect-metadata';
 import { PrismaService } from './services/prisma.service';
+import { AuthMiddleware } from './controllers/middlewares/auth.middleware';
+import { IConfigService } from './config/config.service.interface';
 
 @injectable()
 export class App {
@@ -19,7 +21,8 @@ export class App {
 		@inject(TYPES.ILoggerService) private logger: ILoggerService,
 		@inject(TYPES.IUserController) private userController: UserController,
 		@inject(TYPES.ExceptionFilter) private exceptionFilter: ExceptionFilter,
-		@inject(TYPES.PrismaService) private prismaService: PrismaService
+		@inject(TYPES.PrismaService) private prismaService: PrismaService,
+		@inject(TYPES.IConfigService) private configService: IConfigService
 	) {
 		this.app = express();
 		this.port = 8080;
@@ -37,6 +40,8 @@ export class App {
 
 	private useMiddleware(): void {
 		this.app.use(json());
+		const authMiddleware = new AuthMiddleware(this.configService.get('SECRET'));
+		this.app.use(authMiddleware.execute.bind(authMiddleware));
 	}
 
 	private useRoutes(): void {
